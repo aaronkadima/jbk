@@ -245,3 +245,68 @@ button { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+
+/* JBK editorial layout — desktop sidebar and mobile map-first sheet. */
+:root {
+  --ink: #12372a; --paper: #f7efe4; --paper-hi: #fff9ef;
+  --lapis: #173b2f; --moss: #176c39; --lime: #d9ff50;
+  --sepia: #8b6b56; --press: 0 3px 0 rgba(16, 45, 35, .22);
+}
+.map { background: #f2e3c8; }
+.brand { font-family: var(--ui); font-weight: 900; letter-spacing: -.045em; border: 0; box-shadow: 0 4px 18px #1a332524; border-radius: 14px; color: var(--ink); }
+.iconbtn--float { border: 0; box-shadow: 0 4px 18px #1a332524; }
+.btn, .field, .chip { border-width: 1px; }
+.btn--primary { background: var(--lime); color: #101d16; border-color: transparent; box-shadow: none; }
+.btn--primary:hover { background: #c9f443; }
+.dock__count { border: 0; box-shadow: 0 4px 20px #163c2514; }
+.sheet { border-color: #dbd1c0; box-shadow: 0 -8px 35px #152b2122; }
+.tok__body { background: #123c2c; color: #fff; border: 3px solid #fff7e9; box-shadow: 0 0 0 2px #133b2c; }
+.tok--mine .tok__body { background: var(--lime); color: var(--ink); border-color: var(--ink); }
+.sidebar { display: none; }
+@media (min-width: 900px) {
+  .sidebar {
+    position: absolute; left: 0; top: 0; bottom: 0; display: block;
+    width: 312px; overflow: hidden; z-index: 3;
+    background: #fbf5eb; border-right: 1px solid #e0d6c8;
+  }
+  .sidebar__content { position: relative; z-index: 2; padding: 38px 26px; }
+  .sidebar__logo { background: transparent; border: 0; padding: 0; font: 900 52px/1 var(--ui); letter-spacing: -.075em; color: var(--ink); }
+  .sidebar__headline { font: 400 48px/.99 var(--fell); color: #143326; margin-top: 46px; margin-bottom: 20px; }
+  .sidebar__location { font-size: 17px; margin-bottom: 36px; display: flex; align-items: center; gap: 8px; }
+  .sidebar__location > span { font-size: 27px; line-height: 1; }
+  .sidebar__cta { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: var(--lime); border: 0; border-radius: 14px; font-weight: 750; font-size: 18px; padding: 16px 17px; width: 100%; }
+  .sidebar__cta:hover { background: #c8f23f; }
+  .sidebar__cta > span { font-size: 25px; }
+  .sidebar__availability { display: flex; gap: 9px; align-items: center; padding: 23px 2px 16px; font-size: 13px; color: #436050; }
+  .sidebar__vehicles { display: grid; }
+  .sidebar__vehicles button { display: flex; align-items: center; gap: 14px; background: transparent; border: 0; border-top: 1px solid #cec5b5; padding: 15px 6px; font-size: 17px; text-align: left; }
+  .sidebar__vehicles button span:nth-child(2) { flex: 1; }
+  .sidebar__vehicles button:hover { color: #237a3b; }
+  .sidebar__art { pointer-events: none; position: absolute; bottom: 0; left: 0; width: 100%; height: 235px; background: url('/kinshasa-illustration.svg') left bottom / 100% auto no-repeat; opacity: .88; }
+  .map { left: 312px; }
+  .grain { left: 312px; }
+  .top { left: 337px; }
+  .top > .brand { display: none; }
+  .top__right { margin-left: auto; }
+  .dock, .sheet { left: 336px; }
+  .dock { display: none; }
+  .sheet { bottom: 22px; width: min(420px, calc(100vw - 366px)); }
+  .compass { right: 18px; }
+  .demo { left: 337px; }
+  .toasts { left: calc(50% + 156px); }
+  .maplibregl-ctrl-bottom-left { left: 312px; }
+}
+@media (min-width: 900px) and (max-height: 720px) {
+  .sidebar__content { padding-top: 22px; }
+  .sidebar__headline { margin-top: 24px; font-size: 43px; }
+  .sidebar__location { margin-bottom: 22px; }
+  .sidebar__art { height: 150px; }
+}
+@media (max-width: 899px) {
+  .top { padding: 3px 5px; border-radius: 17px; background: rgba(255, 250, 243, .97); box-shadow: 0 3px 20px #233e2930; }
+  .top .brand { background: transparent; box-shadow: none; font-size: 29px; }
+  .dock { background: rgba(255, 250, 242, .98); border-radius: 26px 26px 0 0; box-shadow: 0 -6px 28px #1c362929; padding-top: 20px; }
+  .dock::before { content: ''; display: block; justify-self: center; width: 48px; height: 5px; border-radius: 20px; background: #c9c6bd; }
+  .dock__count { justify-self: start; background: none; padding-left: 6px; box-shadow: none; }
+}

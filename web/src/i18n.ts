@@ -4,6 +4,7 @@ export const LANGS: { code: Lang; label: string }[] = [
 ];
 
 const pt = {
+  nearby_heading: 'Entregas por perto',
   nearby_0: 'Nenhum entregador por perto agora',
   nearby_1: '1 entregador por perto',
   nearby_n: '{n} entregadores por perto',
@@ -125,6 +126,7 @@ const pt = {
 type Dict = typeof pt;
 
 const fr: Dict = {
+  nearby_heading: 'Livraisons à proximité',
   nearby_0: 'Aucun livreur à proximité pour le moment',
   nearby_1: '1 livreur à proximité',
   nearby_n: '{n} livreurs à proximité',
@@ -238,6 +240,7 @@ const fr: Dict = {
 };
 
 const en: Dict = {
+  nearby_heading: 'Deliveries nearby',
   nearby_0: 'No couriers nearby right now',
   nearby_1: '1 courier nearby',
   nearby_n: '{n} couriers nearby',
