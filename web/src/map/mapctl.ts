@@ -142,10 +142,10 @@ class MapCtl {
       this.pins.push(new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([p.lng, p.lat]).addTo(this.map));
     };
     if (pickup) add(pickup, 'pin--pickup',
-      '<svg viewBox="0 0 32 40" width="32" height="40"><path d="M16 38V8" stroke="#2B1D12" stroke-width="2.5" stroke-linecap="round"/><path d="M16 8h13l-4 5 4 5H16z" fill="#2438C8" stroke="#2B1D12" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="38" rx="5" ry="1.5" fill="#2B1D12" opacity=".35"/></svg>');
+      '<svg viewBox="0 0 36 44" width="36" height="44"><path d="M18 40c0-2-13-15-13-24a13 13 0 0 1 26 0c0 9-13 22-13 24Z" fill="#f9f3e9" stroke="#123b2c" stroke-width="2.5"/><circle cx="18" cy="16" r="5" fill="#176943" stroke="#123b2c" stroke-width="1.5"/></svg>');
     if (dropoff) add(dropoff, 'pin--dropoff',
-      '<svg viewBox="0 0 34 34" width="34" height="34"><path d="M7 7l20 20M27 7L7 27" stroke="#F6EDD6" stroke-width="9" stroke-linecap="round"/><path d="M7 7l20 20M27 7L7 27" stroke="#D8402A" stroke-width="5" stroke-linecap="round"/></svg>');
-    if (dropoff) this.pins[this.pins.length - 1].setOffset([0, 17]);
+      '<svg viewBox="0 0 36 44" width="36" height="44"><path d="M18 41c-2-4-14-16-14-25a14 14 0 0 1 28 0c0 9-12 21-14 25Z" fill="#103d2f" stroke="#fff8e9" stroke-width="2.5"/><circle cx="18" cy="16" r="5" fill="#fff8e9"/></svg>');
+    if (dropoff) this.pins[this.pins.length - 1].setOffset([0, 0]);
   }
 
   /** Rota pelas ruas (OSRM); se o serviço não responder, traça a linha direta. */
