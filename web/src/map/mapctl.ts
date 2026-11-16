@@ -35,8 +35,11 @@ class MapCtl {
   mount(container: HTMLElement, center: LatLng, zoom: number) {
     this.map = new maplibregl.Map({
       container, style: buildStyle(), center: [center.lng, center.lat], zoom,
-      attributionControl: { compact: true }, dragRotate: false, pitchWithRotate: false, maxPitch: 0,
+      attributionControl: false, dragRotate: false, pitchWithRotate: false, maxPitch: 0,
     });
+    // Attribution stays visible as text (OSM licensing), with no compact info button.
+    this.map.addControl(new maplibregl.AttributionControl({ compact: false }), 'bottom-left');
+    this.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     installPatterns(this.map);
     this.map.touchZoomRotate.disableRotation();
     // 'style.load' não depende dos tiles: rota e pinos funcionam mesmo se o servidor de mapas falhar.
