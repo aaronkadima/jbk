@@ -101,6 +101,7 @@ function DesktopSidebar() {
         <div className="sidebar__vehicles" aria-label="Opções de transporte">
           <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('moto', 29) }} /><span>{tr('moto')}</span><Glyph name="arrow" size={19}/></button>
           <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('bike', 29) }} /><span>{tr('bike')}</span><Glyph name="arrow" size={19}/></button>
+          <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('car', 29) }} /><span>Caminhonete</span><Glyph name="arrow" size={19}/></button>
         </div>
         <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
       </div>
@@ -190,10 +191,10 @@ export default function App() {
       {!s.trackCode && <TopBar />}
       {s.trackCode && <a className="brand brand--solo" href="/">JBK</a>}
       <Compass />
-      {s.order?.status === 'picked_up' && (
+      {(s.order?.status === 'picked_up' || (!s.connected && !s.order && !s.trackCode)) && (
         <div className="map__order-notice" role="status">
           <Glyph name="package" size={30} />
-          <span><strong>{tr('st_picked_up')}</strong><small>{tr('order_code', { code: s.order.code })}</small></span>
+          <span><strong>Pedido coletado</strong><small>{s.order ? tr('order_code', { code: s.order.code }) : 'Prévia visual · sem conexão'}</small></span>
           <span className="map__order-details" aria-hidden="true">ⓘ</span>
         </div>
       )}
