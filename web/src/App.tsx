@@ -75,7 +75,7 @@ function TopBar() {
 }
 
 function KinshasaArt() {
-  return <div className="sidebar__art" aria-hidden="true" />;
+  return <div className="sidebar__art" aria-hidden="true"><img src={`${import.meta.env.BASE_URL}kinshasa-sidebar.png`} alt="" onError={(e) => { const el = e.currentTarget; if (!el.dataset.fallback) { el.dataset.fallback = '1'; el.src = `${import.meta.env.BASE_URL}kinshasa-skyline.jpg`; } }} /></div>;
 }
 
 function Glyph({ name, size = 24 }: { name: 'pin' | 'package' | 'arrow'; size?: number }) {
