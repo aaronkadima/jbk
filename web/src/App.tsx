@@ -194,7 +194,7 @@ export default function App() {
         <div className="map__order-notice" role="status">
           <Glyph name="package" size={30} />
           <span><strong>{tr('st_picked_up')}</strong><small>{tr('order_code', { code: s.order.code })}</small></span>
-          <button type="button" className="map__order-details" onClick={() => go('home')} aria-label={tr('order_code', { code: s.order.code })}>ⓘ</button>
+          <span className="map__order-details" aria-hidden="true">ⓘ</span>
         </div>
       )}
       <div className="toasts" role="status" aria-live="polite">
