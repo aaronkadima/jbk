@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: jbk, POSTGRES_PASSWORD: jbk, POSTGRES_DB: jbk }
+    volumes: [pgdata:/var/lib/postgresql/data]
+    ports: ["5432:5432"]
+  app:
+    build: .
+    depends_on: [db]
+    ports: ["4000:4000"]
+    environment:
+      DATABASE_URL: postgres://jbk:jbk@db:5432/jbk
+      JWT_SECRET: ${JWT_SECRET:?defina JWT_SECRET}
+      ADMIN_PHONE: ${ADMIN_PHONE:?defina ADMIN_PHONE}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?defina ADMIN_PASSWORD}
+      DEMO: ${DEMO:-0}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+volumes: { pgdata: {} }

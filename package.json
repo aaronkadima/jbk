@@ -1,0 +1,15 @@
+{
+  "name": "jbk",
+  "private": true,
+  "version": "0.1.0",
+  "description": "JBK — entregas em tempo real (RDC, Brasil, EUA)",
+  "workspaces": ["server", "web"],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,yellow \"npm run dev -w server\" \"npm run dev -w web\"",
+    "build": "npm run build -w web && npm run build -w server",
+    "start": "npm run start -w server",
+    "test": "npm run build -w server && node scripts/e2e.mjs"
+  },
+  "devDependencies": { "concurrently": "^9.1.0" },
+  "engines": { "node": ">=20" }
+}
