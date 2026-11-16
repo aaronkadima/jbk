@@ -31,14 +31,20 @@ function Compass() {
   const tr = useT();
   const me = useApp((s) => s.me);
   return (
-    <button className="compass" aria-label={tr('recenter')} disabled={!me} onClick={() => me && mapctl.flyTo(me, 15.5)}>
-      <svg viewBox="0 0 64 64" width="52" height="52" aria-hidden="true">
-        <circle cx="32" cy="32" r="29" fill="#F6EDD6" stroke="#2B1D12" strokeWidth="2.5" />
-        <circle cx="32" cy="32" r="23" fill="none" stroke="#2B1D12" strokeWidth="1" strokeDasharray="1.5 4" />
-        <path d="M32 6l6 20 20 6-20 6-6 20-6-20-20-6 20-6z" fill="#F6EDD6" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M32 6l6 20-6 6z" fill="#D8402A" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M32 58l-6-20 6-6z" fill="#2438C8" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <circle cx="32" cy="32" r="3" fill="#E0A526" stroke="#2B1D12" strokeWidth="1.5" />
+    <button className="compass" aria-label={tr('recenter')} onClick={() => mapctl.flyTo(me ?? CITIES.CD, 15.5)} title={tr('recenter')}>
+      <svg viewBox="0 0 84 92" width="76" height="84" fill="none" aria-hidden="true">
+        <g stroke="#182c23" strokeWidth="1.35" strokeLinejoin="round">
+          <circle cx="42" cy="46" r="24" strokeWidth=".7" strokeDasharray="1 5"/>
+          <path d="M42 6 48 39 78 46 48 52 42 86 36 52 6 46 36 39Z" fill="#f5e5be"/>
+          <path d="M42 6 48 39 42 46Z" fill="#173d2c"/>
+          <path d="M78 46 48 52 42 46Z" fill="#173d2c"/>
+          <path d="M42 86 36 52 42 46Z" fill="#173d2c"/>
+          <path d="M6 46 36 39 42 46Z" fill="#173d2c"/>
+          <circle cx="42" cy="46" r="3" fill="#b98258"/>
+        </g>
+        <g fontFamily="Georgia, serif" fontSize="13" fontWeight="bold" textAnchor="middle" fill="#173d2c">
+          <text x="42" y="11">N</text><text x="42" y="92">S</text><text x="2" y="49">O</text><text x="82" y="49">L</text>
+        </g>
       </svg>
     </button>
   );
