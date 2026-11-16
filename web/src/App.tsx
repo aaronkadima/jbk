@@ -76,12 +76,12 @@ function DesktopSidebar() {
   const tr = useT();
   const nearby = useApp((s) => s.nearby);
   const user = useApp((s) => s.user);
-  const city = useApp((s) => s.lang === 'fr' ? 'Kinshasa, RDC' : s.lang === 'pt' ? 'São Paulo, Brasil' : 'New York, USA');
+  const city = 'Kinshasa, RDC';
   return (
     <aside className="sidebar" aria-label="JBK">
       <div className="sidebar__content">
         <button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button>
-        <h1 className="sidebar__headline">{useApp.getState().lang === 'fr' ? 'Livraisons à proximité' : useApp.getState().lang === 'en' ? 'Deliveries nearby' : 'Entregas por perto'}</h1>
+        <h1 className="sidebar__headline">{tr('nearby_heading')}</h1>
         <p className="sidebar__location"><span aria-hidden="true">⌖</span> {city}</p>
         <button className="sidebar__cta" onClick={() => go(user?.role === 'admin' ? 'admin' : 'request')}>
           <span aria-hidden="true">⬡</span> {user?.role === 'store' ? tr('ask_store') : tr('ask')} <span aria-hidden="true">→</span>
@@ -139,8 +139,7 @@ export default function App() {
   const s = useApp();
 
   useEffect(() => {
-    const lang = useApp.getState().lang;
-    const city = CITIES[lang === 'fr' ? 'CD' : lang === 'pt' ? 'BR' : 'US'];
+    const city = CITIES.CD;
     const map = mapctl.mount(el.current!, city, 13.5);
     map.on('moveend', watchMap);
     mapctl.onCourierTap = (c) => toast(`${c.name} · ${t(c.vehicle)}`);
