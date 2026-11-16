@@ -190,6 +190,13 @@ export default function App() {
       {!s.trackCode && <TopBar />}
       {s.trackCode && <a className="brand brand--solo" href="/">JBK</a>}
       <Compass />
+      {s.order?.status === 'picked_up' && (
+        <div className="map__order-notice" role="status">
+          <Glyph name="package" size={30} />
+          <span><strong>{tr('st_picked_up')}</strong><small>{tr('order_code', { code: s.order.code })}</small></span>
+          <button type="button" className="map__order-details" onClick={() => go('home')} aria-label={tr('order_code', { code: s.order.code })}>ⓘ</button>
+        </div>
+      )}
       <div className="toasts" role="status" aria-live="polite">
         {!s.connected && <div className="toast toast--bad">{tr('offline_net')}</div>}
         {s.toasts.map((x) => <div key={x.id} className={`toast toast--${x.tone}`}>{x.text}</div>)}
