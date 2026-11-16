@@ -72,25 +72,31 @@ function KinshasaArt() {
   return <div className="sidebar__art" aria-hidden="true" />;
 }
 
+function Glyph({ name, size = 24 }: { name: 'pin' | 'package' | 'arrow'; size?: number }) {
+  const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true as const };
+  if (name === 'pin') return <svg {...common}><path d="M20 10c0 5.4-8 12-8 12S4 15.4 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.8"/></svg>;
+  if (name === 'package') return <svg {...common}><path d="m12 2 9 5-9 5-9-5 9-5ZM3 7v10l9 5 9-5V7M12 12v10M7.5 4.5l9 5"/></svg>;
+  return <svg {...common}><path d="M4 12h16m-7-7 7 7-7 7"/></svg>;
+}
+
 function DesktopSidebar() {
   const tr = useT();
   const nearby = useApp((s) => s.nearby);
   const user = useApp((s) => s.user);
-  const city = 'Kinshasa, RDC';
   return (
     <aside className="sidebar" aria-label="JBK">
       <div className="sidebar__content">
         <button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button>
         <h1 className="sidebar__headline">{tr('nearby_heading')}</h1>
-        <p className="sidebar__location"><span aria-hidden="true">⌖</span> {city}</p>
+        <p className="sidebar__location"><Glyph name="pin" size={23} /> Kinshasa, RDC</p>
         <button className="sidebar__cta" onClick={() => go(user?.role === 'admin' ? 'admin' : 'request')}>
-          <span aria-hidden="true">⬡</span> {user?.role === 'store' ? tr('ask_store') : tr('ask')} <span aria-hidden="true">→</span>
+          <Glyph name="package" size={29} /> <span className="sidebar__cta-label">{user?.role === 'store' ? tr('ask_store') : tr('ask')}</span> <Glyph name="arrow" size={23} />
         </button>
-        <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
         <div className="sidebar__vehicles" aria-label="Opções de transporte">
-          <button onClick={() => go('request')}>♧ <span>{tr('moto')}</span><span>→</span></button>
-          <button onClick={() => go('request')}>♧ <span>{tr('bike')}</span><span>→</span></button>
+          <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('moto', 29) }} /><span>{tr('moto')}</span><Glyph name="arrow" size={19}/></button>
+          <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('bike', 29) }} /><span>{tr('bike')}</span><Glyph name="arrow" size={19}/></button>
         </div>
+        <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
       </div>
       <KinshasaArt />
     </aside>
