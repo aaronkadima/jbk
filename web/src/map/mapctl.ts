@@ -9,9 +9,9 @@ export type CourierPin = LatLng & { id: string; name: string; vehicle: Vehicle; 
 // Ícones de traço simples, no espírito de sinete de cartógrafo.
 export const VEHICLE_ICON: Record<Vehicle, string> = {
   foot: '<circle cx="13" cy="5" r="2"/><path d="M13 8l-3 4 3 3v5M10 12l-3 1M13 11l3 2 2-1M10 16l-2 4"/>',
-  bike: '<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8M10 8l4 8M9 6h3"/>',
-  moto: '<circle cx="5.5" cy="16" r="3"/><circle cx="18.5" cy="16" r="3"/><path d="M5.5 16l4-5h5l4 5M14.5 11l-1.5-4h3M8 9h4"/>',
-  car: '<path d="M3 15v-3l2.5-5h13l2.5 5v3M3 15h18M3 15v3M21 15v3"/><circle cx="7.5" cy="15" r="1.5"/><circle cx="16.5" cy="15" r="1.5"/>',
+  bike: '<circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9.5 8h5l4 8.5H12l-2.5-8.5M9 6h4m1 1.5 2 0m-6 9h2m-2.5-8.5h4.5"/>',
+  moto: '<circle cx="5.3" cy="16.5" r="3.2"/><circle cx="18.8" cy="16.5" r="3.2"/><path d="m5.3 16.5 4-6.2h4.9l4.6 6.2M9.3 10.3l-2.1 6.2m6.9-6.2 2.3-2.1 2.4 1.4M12 10.3 14 16.5H9m-1-8h4l1.2-2h3.2m-5.2-1.5h2.8"/>',
+  car: '<path d="M2 6h12v11H2zM14 10h4l4 4v3h-8M2 17h2m8 0h4m5 0h1M14 6v11"/><circle cx="8" cy="17" r="2.3"/><circle cx="19" cy="17" r="2.3"/>',
 };
 export const icon = (v: Vehicle, size = 22) =>
   `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${VEHICLE_ICON[v]}</svg>`;
@@ -47,7 +47,7 @@ class MapCtl {
         paint: { 'line-color': PAPER, 'line-width': 9, 'line-opacity': 0.9 } });
       this.map.addLayer({ id: 'route', type: 'line', source: 'route',
         layout: { 'line-join': 'round' },
-        paint: { 'line-color': '#D8402A', 'line-width': 4, 'line-dasharray': [1.4, 1.6] } });
+        paint: { 'line-color': '#176943', 'line-width': 4, 'line-dasharray': [1.4, 1.6] } });
       this.ready = true;
       this.onReady.splice(0).forEach((f) => f());
     });
@@ -142,10 +142,10 @@ class MapCtl {
       this.pins.push(new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([p.lng, p.lat]).addTo(this.map));
     };
     if (pickup) add(pickup, 'pin--pickup',
-      '<svg viewBox="0 0 32 40" width="32" height="40"><path d="M16 38V8" stroke="#2B1D12" stroke-width="2.5" stroke-linecap="round"/><path d="M16 8h13l-4 5 4 5H16z" fill="#2438C8" stroke="#2B1D12" stroke-width="2" stroke-linejoin="round"/><ellipse cx="16" cy="38" rx="5" ry="1.5" fill="#2B1D12" opacity=".35"/></svg>');
+      '<svg viewBox="0 0 36 44" width="36" height="44"><path d="M18 40c0-2-13-15-13-24a13 13 0 0 1 26 0c0 9-13 22-13 24Z" fill="#f9f3e9" stroke="#123b2c" stroke-width="2.5"/><circle cx="18" cy="16" r="5" fill="#176943" stroke="#123b2c" stroke-width="1.5"/></svg>');
     if (dropoff) add(dropoff, 'pin--dropoff',
-      '<svg viewBox="0 0 34 34" width="34" height="34"><path d="M7 7l20 20M27 7L7 27" stroke="#F6EDD6" stroke-width="9" stroke-linecap="round"/><path d="M7 7l20 20M27 7L7 27" stroke="#D8402A" stroke-width="5" stroke-linecap="round"/></svg>');
-    if (dropoff) this.pins[this.pins.length - 1].setOffset([0, 17]);
+      '<svg viewBox="0 0 36 44" width="36" height="44"><path d="M18 41c-2-4-14-16-14-25a14 14 0 0 1 28 0c0 9-12 21-14 25Z" fill="#103d2f" stroke="#fff8e9" stroke-width="2.5"/><circle cx="18" cy="16" r="5" fill="#fff8e9"/></svg>');
+    if (dropoff) this.pins[this.pins.length - 1].setOffset([0, 0]);
   }
 
   /** Rota pelas ruas (OSRM); se o serviço não responder, traça a linha direta. */

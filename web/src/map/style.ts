@@ -3,10 +3,10 @@
 import type { StyleSpecification, Map as GlMap } from 'maplibre-gl';
 
 export const INK = '#2B1D12';
-export const PAPER = '#E9DBB8';
-const SEPIA = '#7A5A3A';
-const SEA = '#BFCDB6';
-const LAPIS = '#2438C8';
+export const PAPER = '#F3E5CB';
+const SEPIA = '#9C785C';
+const SEA = '#447D83';
+const LAPIS = '#F9F0D8';
 
 const TILES = import.meta.env.VITE_TILES_URL ?? 'https://tiles.openfreemap.org/planet';
 const GLYPHS = import.meta.env.VITE_GLYPHS_URL ?? 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
@@ -53,10 +53,10 @@ export function buildStyle(): StyleSpecification {
       { id: 'coast', type: 'line', source: 'osm', 'source-layer': 'water',
         paint: { 'line-color': INK, 'line-width': z(6, 0.6, 16, 1.6), 'line-opacity': 0.85 } },
       { id: 'river', type: 'line', source: 'osm', 'source-layer': 'waterway',
-        paint: { 'line-color': '#6F8F86', 'line-width': z(8, 0.6, 16, 3) } },
+        paint: { 'line-color': '#447D83', 'line-width': z(8, 0.6, 16, 3) } },
 
       { id: 'building', type: 'fill', source: 'osm', 'source-layer': 'building', minzoom: 14,
-        paint: { 'fill-color': '#D9C39A', 'fill-opacity': z(14, 0, 15, 0.85), 'fill-outline-color': SEPIA } },
+        paint: { 'fill-color': '#D7C5A8', 'fill-opacity': z(14, 0, 15, 0.85), 'fill-outline-color': SEPIA } },
 
       // Caminhos: trilhas pontilhadas, ruas como traço de pena, estradas reais em linha dupla.
       road('path', ['path', 'track'], SEPIA, z(13, 0.5, 18, 1.6), { minzoom: 14, layout: {}, paint: {

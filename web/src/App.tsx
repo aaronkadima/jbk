@@ -31,14 +31,20 @@ function Compass() {
   const tr = useT();
   const me = useApp((s) => s.me);
   return (
-    <button className="compass" aria-label={tr('recenter')} disabled={!me} onClick={() => me && mapctl.flyTo(me, 15.5)}>
-      <svg viewBox="0 0 64 64" width="52" height="52" aria-hidden="true">
-        <circle cx="32" cy="32" r="29" fill="#F6EDD6" stroke="#2B1D12" strokeWidth="2.5" />
-        <circle cx="32" cy="32" r="23" fill="none" stroke="#2B1D12" strokeWidth="1" strokeDasharray="1.5 4" />
-        <path d="M32 6l6 20 20 6-20 6-6 20-6-20-20-6 20-6z" fill="#F6EDD6" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M32 6l6 20-6 6z" fill="#D8402A" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M32 58l-6-20 6-6z" fill="#2438C8" stroke="#2B1D12" strokeWidth="2" strokeLinejoin="round" />
-        <circle cx="32" cy="32" r="3" fill="#E0A526" stroke="#2B1D12" strokeWidth="1.5" />
+    <button className="compass" aria-label={tr('recenter')} onClick={() => mapctl.flyTo(me ?? CITIES.CD, 15.5)} title={tr('recenter')}>
+      <svg viewBox="0 0 84 92" width="76" height="84" fill="none" aria-hidden="true">
+        <g stroke="#182c23" strokeWidth="1.35" strokeLinejoin="round">
+          <circle cx="42" cy="46" r="24" strokeWidth=".7" strokeDasharray="1 5"/>
+          <path d="M42 6 48 39 78 46 48 52 42 86 36 52 6 46 36 39Z" fill="#f5e5be"/>
+          <path d="M42 6 48 39 42 46Z" fill="#173d2c"/>
+          <path d="M78 46 48 52 42 46Z" fill="#173d2c"/>
+          <path d="M42 86 36 52 42 46Z" fill="#173d2c"/>
+          <path d="M6 46 36 39 42 46Z" fill="#173d2c"/>
+          <circle cx="42" cy="46" r="3" fill="#b98258"/>
+        </g>
+        <g fontFamily="Georgia, serif" fontSize="13" fontWeight="bold" textAnchor="middle" fill="#173d2c">
+          <text x="42" y="11">N</text><text x="42" y="92">S</text><text x="2" y="49">O</text><text x="82" y="49">L</text>
+        </g>
       </svg>
     </button>
   );
@@ -72,25 +78,31 @@ function KinshasaArt() {
   return <div className="sidebar__art" aria-hidden="true" />;
 }
 
+function Glyph({ name, size = 24 }: { name: 'pin' | 'package' | 'arrow'; size?: number }) {
+  const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true as const };
+  if (name === 'pin') return <svg {...common}><path d="M20 10c0 5.4-8 12-8 12S4 15.4 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.8"/></svg>;
+  if (name === 'package') return <svg {...common}><path d="m12 2 9 5-9 5-9-5 9-5ZM3 7v10l9 5 9-5V7M12 12v10M7.5 4.5l9 5"/></svg>;
+  return <svg {...common}><path d="M4 12h16m-7-7 7 7-7 7"/></svg>;
+}
+
 function DesktopSidebar() {
   const tr = useT();
   const nearby = useApp((s) => s.nearby);
   const user = useApp((s) => s.user);
-  const city = 'Kinshasa, RDC';
   return (
     <aside className="sidebar" aria-label="JBK">
       <div className="sidebar__content">
         <button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button>
         <h1 className="sidebar__headline">{tr('nearby_heading')}</h1>
-        <p className="sidebar__location"><span aria-hidden="true">⌖</span> {city}</p>
+        <p className="sidebar__location"><Glyph name="pin" size={23} /> Kinshasa, RDC</p>
         <button className="sidebar__cta" onClick={() => go(user?.role === 'admin' ? 'admin' : 'request')}>
-          <span aria-hidden="true">⬡</span> {user?.role === 'store' ? tr('ask_store') : tr('ask')} <span aria-hidden="true">→</span>
+          <Glyph name="package" size={29} /> <span className="sidebar__cta-label">{user?.role === 'store' ? tr('ask_store') : tr('ask')}</span> <Glyph name="arrow" size={23} />
         </button>
-        <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
         <div className="sidebar__vehicles" aria-label="Opções de transporte">
-          <button onClick={() => go('request')}>♧ <span>{tr('moto')}</span><span>→</span></button>
-          <button onClick={() => go('request')}>♧ <span>{tr('bike')}</span><span>→</span></button>
+          <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('moto', 29) }} /><span>{tr('moto')}</span><Glyph name="arrow" size={19}/></button>
+          <button onClick={() => go('request')}><span className="sidebar__vehicle-icon" dangerouslySetInnerHTML={{ __html: icon('bike', 29) }} /><span>{tr('bike')}</span><Glyph name="arrow" size={19}/></button>
         </div>
+        <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
       </div>
       <KinshasaArt />
     </aside>
@@ -178,6 +190,13 @@ export default function App() {
       {!s.trackCode && <TopBar />}
       {s.trackCode && <a className="brand brand--solo" href="/">JBK</a>}
       <Compass />
+      {s.order?.status === 'picked_up' && (
+        <div className="map__order-notice" role="status">
+          <Glyph name="package" size={30} />
+          <span><strong>{tr('st_picked_up')}</strong><small>{tr('order_code', { code: s.order.code })}</small></span>
+          <span className="map__order-details" aria-hidden="true">ⓘ</span>
+        </div>
+      )}
       <div className="toasts" role="status" aria-live="polite">
         {!s.connected && <div className="toast toast--bad">{tr('offline_net')}</div>}
         {s.toasts.map((x) => <div key={x.id} className={`toast toast--${x.tone}`}>{x.text}</div>)}
