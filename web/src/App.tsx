@@ -68,6 +68,35 @@ function TopBar() {
   );
 }
 
+function KinshasaArt() {
+  return <div className="sidebar__art" aria-hidden="true" />;
+}
+
+function DesktopSidebar() {
+  const tr = useT();
+  const nearby = useApp((s) => s.nearby);
+  const user = useApp((s) => s.user);
+  const city = useApp((s) => s.lang === 'fr' ? 'Kinshasa, RDC' : s.lang === 'pt' ? 'São Paulo, Brasil' : 'New York, USA');
+  return (
+    <aside className="sidebar" aria-label="JBK">
+      <div className="sidebar__content">
+        <button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button>
+        <h1 className="sidebar__headline">{tr('nearby_title')}</h1>
+        <p className="sidebar__location"><span aria-hidden="true">⌖</span> {city}</p>
+        <button className="sidebar__cta" onClick={() => go(user?.role === 'admin' ? 'admin' : 'request')}>
+          <span aria-hidden="true">⬡</span> {user?.role === 'store' ? tr('ask_store') : tr('ask')} <span aria-hidden="true">→</span>
+        </button>
+        <div className="sidebar__availability" aria-live="polite"><span className={nearby ? 'dot dot--on' : 'dot'} />{nearby === 0 ? tr('nearby_0') : nearby === 1 ? tr('nearby_1') : tr('nearby_n', { n: nearby })}</div>
+        <div className="sidebar__vehicles" aria-label="Opções de transporte">
+          <button onClick={() => go('request')}>♧ <span>Moto</span><span>→</span></button>
+          <button onClick={() => go('request')}>♧ <span>Bicicleta</span><span>→</span></button>
+        </div>
+      </div>
+      <KinshasaArt />
+    </aside>
+  );
+}
+
 function Home() {
   const tr = useT();
   const user = useApp((s) => s.user);
@@ -136,6 +165,7 @@ export default function App() {
 
   return (
     <div className="app">
+      {!s.trackCode && <DesktopSidebar />}
       <div ref={el} className="map" />
       <div className="grain" aria-hidden="true" />
       {s.picking && (
