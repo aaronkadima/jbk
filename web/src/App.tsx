@@ -50,13 +50,37 @@ function Compass() {
   );
 }
 
+function AccountControl({ compact = false }: { compact?: boolean }) {
+  const tr = useT();
+  const user = useApp((s) => s.user);
+  return (
+    <button
+      className={`account-control${compact ? ' account-control--sidebar' : ''}`}
+      type="button"
+      onClick={() => go(user ? 'profile' : 'auth')}
+      aria-label={user ? tr('go_to') + ' ' + tr('role_client') + ': ' + user.name : tr('sign_in')}
+      title={user ? user.name : tr('sign_in')}
+    >
+      {user ? <span className="account-control__initial">{user.name.slice(0, 1).toUpperCase()}</span> : (
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="3.7" />
+          <path d="M4.7 20c.4-4 3.2-6 7.3-6s6.9 2 7.3 6" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 function TopBar() {
   const tr = useT();
   const user = useApp((s) => s.user);
   const unread = useApp((s) => s.notes.filter((n) => !n.read).length);
   return (
     <header className="top">
-      <button className="brand" onClick={() => go('home')} aria-label="JBK">JBK</button>
+      <div className="top__identity">
+        <button className="brand" onClick={() => go('home')} aria-label="JBK">JBK</button>
+        <AccountControl />
+      </div>
       <div className="top__right">
         {user && (
           <button className="iconbtn iconbtn--float" onClick={() => go('notes')} aria-label={tr('notifications')}>
@@ -66,9 +90,6 @@ function TopBar() {
             {unread > 0 && <span className="badge">{unread > 9 ? '9+' : unread}</span>}
           </button>
         )}
-        <button className="iconbtn iconbtn--float iconbtn--wide" onClick={() => go(user ? 'profile' : 'auth')}>
-          {user ? user.name.slice(0, 1).toUpperCase() : tr('sign_in')}
-        </button>
       </div>
     </header>
   );
@@ -92,7 +113,7 @@ function DesktopSidebar() {
   return (
     <aside className="sidebar" aria-label="JBK">
       <div className="sidebar__content">
-        <button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button>
+        <div className="sidebar__identity"><button className="sidebar__logo" onClick={() => go('home')} aria-label="JBK, início">JBK</button><AccountControl compact /></div>
         <h1 className="sidebar__headline">{tr('nearby_heading')}</h1>
         <p className="sidebar__location"><Glyph name="pin" size={23} /> Kinshasa, RDC</p>
         <button className="sidebar__cta" onClick={() => go(user?.role === 'admin' ? 'admin' : 'request')}>
@@ -198,8 +219,8 @@ export default function App() {
           <span className="map__order-details" aria-hidden="true">ⓘ</span>
         </div>
       )}
+      {!s.connected && <div className="map__connection-status" role="status" aria-live="polite"><span className="map__connection-dot" />{tr('offline_net')}</div>}
       <div className="toasts" role="status" aria-live="polite">
-        {!s.connected && <div className="toast toast--bad">{tr('offline_net')}</div>}
         {s.toasts.map((x) => <div key={x.id} className={`toast toast--${x.tone}`}>{x.text}</div>)}
       </div>
       {s.cfg?.demo && s.view === 'home' && !s.order && role !== 'courier' && !s.trackCode && (
